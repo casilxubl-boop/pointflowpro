@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>PointFlow Pro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  color:white;
+  text-align:center;
+}
+.container{
+  padding:20px;
+}
+.card{
+  background:rgba(255,255,255,0.1);
+  padding:20px;
+  border-radius:15px;
+  margin:20px auto;
+  max-width:400px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+input,button{
+  padding:10px;
+  margin:5px;
+  border:none;
+  border-radius:8px;
+}
+input{
+  width:80%;
+}
+button{
+  background:#00c6ff;
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
+}
+button:hover{
+  background:#0072ff;
+}
+.point{
+  font-size:28px;
+  margin:15px 0;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>PointFlow Pro</h1>
+
+<div class="card">
+<h3>เพิ่มคะแนน</h3>
+<input id="name" placeholder="ชื่อลูกทีม">
+<input id="score" type="number" placeholder="คะแนน">
+<br>
+<button onclick="addPoint()">เพิ่ม</button>
+</div>
+
+<div class="card">
+<h3>ตารางคะแนน</h3>
+<div id="list"></div>
+</div>
+
+</div>
+
+<script>
+let data = JSON.parse(localStorage.getItem("points")) || {};
+
+function addPoint(){
+  let name = document.getElementById("name").value;
+  let score = parseInt(document.getElementById("score").value);
+
+  if(!name || !score) return alert("กรอกข้อมูลให้ครบ");
+
+  if(!data[name]) data[name] = 0;
+  data[name] += score;
+
+  localStorage.setItem("points", JSON.stringify(data));
+  show();
+}
+
+function show(){
+  let html="";
+  for(let n in data){
+    html += "<div class='point'>"+n+" : "+data[n]+" คะแนน</div>";
+  }
+  document.getElementById("list").innerHTML = html;
+}
+
+show();
+</script>
+
+</body>
+</html>
