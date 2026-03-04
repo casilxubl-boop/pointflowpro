@@ -42,9 +42,12 @@ button:hover{
   background:#0072ff;
 }
 .point{
-  font-size:28px;
-  margin:15px 0;
+  font-size:22px;
+  margin:10px 0;
   font-weight:bold;
+}
+.hidden{
+  display:none;
 }
 </style>
 </head>
@@ -54,14 +57,24 @@ button:hover{
 <div class="container">
 <h1>PointFlow Pro</h1>
 
-<div class="card">
+<!-- Login Admin -->
+<div class="card" id="loginBox">
+<h3>Admin Login</h3>
+<input type="password" id="adminPass" placeholder="รหัสผ่าน Admin">
+<br>
+<button onclick="login()">เข้าสู่ระบบ</button>
+</div>
+
+<!-- Admin Panel -->
+<div class="card hidden" id="adminPanel">
 <h3>เพิ่มคะแนน</h3>
 <input id="name" placeholder="ชื่อลูกทีม">
 <input id="score" type="number" placeholder="คะแนน">
 <br>
-<button onclick="addPoint()">เพิ่ม</button>
+<button onclick="addPoint()">เพิ่มคะแนน</button>
 </div>
 
+<!-- Scoreboard -->
 <div class="card">
 <h3>ตารางคะแนน</h3>
 <div id="list"></div>
@@ -71,6 +84,17 @@ button:hover{
 
 <script>
 let data = JSON.parse(localStorage.getItem("points")) || {};
+const ADMIN_PASSWORD = "1234"; // 🔥 เปลี่ยนรหัสตรงนี้ได้
+
+function login(){
+  let pass = document.getElementById("adminPass").value;
+  if(pass === ADMIN_PASSWORD){
+    document.getElementById("adminPanel").classList.remove("hidden");
+    document.getElementById("loginBox").classList.add("hidden");
+  }else{
+    alert("รหัสผ่านไม่ถูกต้อง");
+  }
+}
 
 function addPoint(){
   let name = document.getElementById("name").value;
